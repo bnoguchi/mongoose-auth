@@ -2,9 +2,9 @@ var connect = require('connect')
   , connectAuth = require('connect-auth');
 
 var Modules = {
-    password: require('./modules/password')
-  , facebook: require('./modules/facebook')
-  , twitter: require('./modules/twitter')
+    password: require('./lib/modules/password')
+  , facebook: require('./lib/modules/facebook')
+  , twitter: require('./lib/modules/twitter')
 };
 
 exports.authPlugin = function (schema, opts) {
