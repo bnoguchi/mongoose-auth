@@ -1,37 +1,19 @@
-//var crypto = require('crypto');
-//
-//var sha = function (num) {
-//  function secureDigest (salt, digest, password, pepper) {
-//    return crypto
-//      .createHash('sha' + num) // or .createHmac('sha' + num, salt)
-//      .update('--' + Array.prototype..join.call(arguments, '--') + '--')
-//      .digest('hex');
-//  }
-//
-//  return {
-//    digest: function (password, stretches, salt, pepper) {
-//      var digest = pepper;
-//      while (stretches--) {
-//        digest = secureDigest(salt, digest, password, pepper);
-//      }
-//      return digest;
-//    }
-//  };
-//};
-//
-//var sha512 = sha(512);
-//
-//var sha1 = sha(1);
+var connect = require('connect')
+  , connectAuth = require('connect-auth');
 
-var bcrypt = require('bcrypt');
+var Modules = {
+    password: require('./modules/password')
+  , facebook: require('./modules/facebook')
+  , twitter: require('./modules/twitter')
+};
 
-module.exports = function (schema, opts) {
+exports.authPlugin = function (schema, opts) {
   var moduleName
-    , mod
+    , decorate
     , moduleOpts;
   for (moduleName in opts) {
     try {
-      mod = require('./modules/' + moduleName + '/schema');
+      decorate = Modules[moduleName].schema;
     } catch (e) {
       throw new Error("Missing module named " + moduleName);
     }
@@ -39,6 +21,59 @@ module.exports = function (schema, opts) {
     if (moduleOpts === true) {
       moduleOpts = {}
     }
-    mod(schema, {});
+    decorate(schema, {});
   }
+};
+
+exports.connect = function (config) {
+  var modules = config.modules;
+  if (!modules) {
+    throw new Error("You must specify at least one module.");
+  }
+
+  var middleware = function () {
+    var connectAuthModules = []
+      , moduleOpts;
+    for (var moduleName in modules) {
+      moduleOpts = modules[moduleName];
+      if (Modules[moduleName].connectAuth) {
+        connectAuthModules.push(
+          Modules[moduleName].connectAuth(moduleOpts)
+        );
+      }
+    }
+
+    var server = connect(
+        connectAuth(connectAuthModules)
+    );
+
+    return server;
+  };
+
+  var router = function () {
+    return connect.router(function (app) {
+      var moduleOpts;
+      for (var moduleName in modules) {
+        moduleOpts = modules[moduleName];
+        try {
+          Modules[moduleName].router(app, moduleOpts);
+        } catch (e) {
+          throw new Error('Module ' + moduleName + ' has no router defined');
+        }
+      }
+
+      app.get('/logout', function (req, res) {
+        delete req.session.auth.userId;
+        req.logout(); // Defined by connect-auth
+        res.writeHead(303, { 'Location': '/'}); // Make Location configurable
+        res.end('');
+      });
+    });
+  };
+
+  return {
+      middleware: middleware
+    , router: router
+  };
+
 };

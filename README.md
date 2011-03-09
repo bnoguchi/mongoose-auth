@@ -29,7 +29,7 @@ own request handlers and views for common scenarios. This drop-in also
 enables you to easily check that a user is logged in before passing a
 request along to the given url handler.
 
-We hope to support all of the following logins eventually:
+We hope to support all of the following logins eventually (list borrowed from OmniAuth):
 
 - OAuth
   - 37signals ID
@@ -80,19 +80,17 @@ The following is an API proposal:
 
 You also can configure the plugin with configuration options:
     UserSchema.plugin(authPlugin, {
-      modules: [
-          'dbAuthenticatable'
-        , 'confirmable'
-        , 'recoverable'
-        , 'rememberable'
-        , 'trackable'
-      ]
+        password: true
+      , confirmable: true
     });
 
 The meat and butter API calls are demonstrated here:
     mongoose.model('User', UserSchema);
     var User = mongoose.model('User');
-    User.
+    var user = findOne({login: 'username'}, function (err, user) {
+      if (user.authenticate('some-password')) {
+      }
+    });
 
 ### Facebook login
     UserSchema.plugin(authPlugin, {

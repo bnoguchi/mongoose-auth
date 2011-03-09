@@ -1,5 +1,5 @@
 test:
-	@expresso test.js
+	@expresso test/authplugin.test.js
 
 test-cov:
 	@TESTFLAGS=--cov $(MAKE) test

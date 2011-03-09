@@ -1,7 +1,7 @@
 var should = require('should')
   , mongoose = require('mongoose')
   , UserSchema = new mongoose.Schema()
-  , authPlugin = require('./index')
+  , authPlugin = require('../index').authPlugin
   , User;
 
 UserSchema.plugin(authPlugin, {
