@@ -25,7 +25,7 @@ exports.authPlugin = function (schema, opts) {
   }
 };
 
-exports.connect = function (config) {
+exports.init = function (config) {
   var modules = config.modules;
   if (!modules) {
     throw new Error("You must specify at least one module.");
