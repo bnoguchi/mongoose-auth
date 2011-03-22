@@ -16,8 +16,8 @@ mongoose-auth supports the following authorization strategies:
 mongoose-auth does 2 things:
 
 1. Schema decoration
-2. (optional) Drop in routing and event handling for (connect)[https://github.com/senchalabs/connect]
-   apps.
+2. (optional) Drop in routing and event handling for 
+   (connect)[https://github.com/senchalabs/connect] apps.
 
 ## Schema Decoration
 
@@ -36,6 +36,83 @@ To decorate your schema:
     UserSchema.plugin(mongooseAuth.authPlugin, {
       facebook: true
     });
+
+## Convenience Instance Methods (Draft)
+
+mongoose-auth also adds convenience methods to interact with the
+Facebook and Twitter APIs in an idiomatic manner directly from a User
+instance.
+
+For example, the Facebook module enables the following:
+
+    // Logged in user data access (stored in mongodb in the user document)
+    user.fb.id;
+    user.fb.name;
+    user.fb.name.first;
+    user.fb.name.last;
+    user.fb.name.full;
+    user.fb.link;
+    user.fb.username;
+    user.fb.gender;
+    user.fb.locale;
+    
+    // User data access
+    fb.user('btaylor', function (err, user) {
+    });
+    // Page access
+    fb.page('cocacola', function (err, page) {
+    });
+    fb.friends('btaylor', function (err, friends) {
+    });
+    
+    // Accessing the logged in user profile picture
+    user.fb.picture;
+    user.fb.friends;
+    user.fb.newsfeed;
+    user.fb.wall;
+    user.fb.likes;
+    user.fb.movies;
+    user.fb.music;
+    user.fb.books;
+    user.fb.notes;
+    user.fb.photoTags;
+    user.fb.photoAlbums;
+    user.fb.videoTags;
+    user.fb.videoUploads;
+    user.fb.events;
+    user.fb.groups;
+    user.fb.checkins;
+    
+    // Publishing
+    user.fb.publishToWall('arjun', 'wall post content');
+    user.fb.comment(objectId, message);
+    user.fb.like(313449204401);
+    user.fb.note(subject, message);
+    user.fb.link({
+        link: ...
+      , message: ...
+      , picture: ...
+      , name: ...
+      , caption: ...
+      , description: ...
+    });
+    user.fb.event({
+        name: ...
+      , start: ...
+      , end: ...
+    });
+    user.fb.rsvp.attending(eventId);
+    user.fb.rsvp.maybe(eventId);
+    user.fb.rsvp.declined(eventId);
+    user.fb.createAlbum(name, message);
+    user.fb.uploadPhoto(message, source);
+    user.fb.checkin({
+        coords: ...
+      , place: ...
+      , message: ...
+      , tags: ...
+    });
+    // Batch requesting?
 
 ## Beyond Schema Decoration: Routing and Event Handling
 
@@ -67,6 +144,59 @@ provides drop in solutions for:
    - Logging a user out after a timeout of a certain amount of time
 
 mongoose-auth tries to be modular and comprehensive.
+
+## The Password Module
+
+## Thoughts
+
+Password    Login Page    Submit login+password          Authorization Check     Respond to User
+
+Facebook    Login Link    Password via facebook.com      Facebook Checks Auth    Respond to User (Callback Route + Logic)
+
+Twitter
+
+
+## Thoughts to API
+    mongooseAuth
+      .password
+        .loginUri('/login')
+      .facebook
+        .appId()
+        .appSecret()
+        .loginUri('/auth/facebook')
+          .delegateTo.fbConnect
+            .appId()
+            .appSecret()
+        .authorize( function (req, res) {
+        })
+      .twitter
+        .loginPage('/auth/twitter')
+
+    facebook = oauth
+                 .appId()
+                 .appSecret()
+                 .getCode
+                   .callbackUri('/auth/facebook_callback')
+                   .succeed(function (req, res, code) {
+                      this.getTokens(req, res, code);
+                    })
+                   .fail(function (req, res) {
+                    })
+                   .err(function (req, res, err) {
+                    })
+                 .getTokens
+                   .succeed(function (req, res, accessToken, refreshToken) {
+                      req.session['access_token'] = accessToken;
+                      if (refreshToken)
+                        req.session['refresh_token'] = refreshToken;
+                      this.oauth.getProtectedResource('https://graph.facebook.com/me', accessToken, function (err, data, response) {
+                        if (err) this.getTokens.err(req, res, err);
+                      });
+                    })
+                   .err(function (req, res, err) {
+                    })
+                   .timeout(function (req, res) {
+                    })
 
 ## Old README
 
@@ -154,7 +284,7 @@ You also can configure the plugin with configuration options:
 The meat and butter API calls are demonstrated here:
     mongoose.model('User', UserSchema);
     var User = mongoose.model('User');
-    var user = findOne({login: 'username'}, function (err, user) {
+    var user = User.findOne({login: 'username'}, function (err, user) {
       if (user.authenticate('some-password')) {
       }
     });
