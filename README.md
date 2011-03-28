@@ -123,7 +123,7 @@ strategy. Moreover, applications each handle in their own unique way how
 they want to respond to successful or failed logins (in addition to logout
 handling). If you are not using a 
 (connect)[https://github.com/senchalabs/connect], then you will have to
-set all of this up yourself. In this case, mongoose-auth only provides
+set all of this up yourself. In this case, mongoose-auth *only* provides
 you with Schema decoration.
 
 But, if you are building your app on top of
@@ -154,6 +154,10 @@ Password    Login Page    Submit login+password          Authorization Check    
 Facebook    Login Link    Password via facebook.com      Facebook Checks Auth    Respond to User (Callback Route + Logic)
 
 Twitter
+
+Facebook
+- User Authentication & App Authorization via Oauth Dialog
+- App Authentication
 
 
 ## Thoughts to API
