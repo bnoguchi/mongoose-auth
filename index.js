@@ -1,6 +1,3 @@
-var connect = require('connect')
-  , connectAuth = require('connect-auth');
-
 var Modules = {
     password: require('./lib/modules/password')
   , facebook: require('./lib/modules/facebook')
