@@ -21,16 +21,9 @@ UserSchema.plugin(mongooseAuth, {
         , appId: conf.fb.appId
         , appSecret: conf.fb.appSecret
         , redirectPath: '/'
-        , findOrCreateUser: function (sess, accessTok, fbUser) {
-            var promise = new Promise();
-            User.findOne({'fb.id': fbUser.id}, function (err, foundUser) {
-              if (foundUser)
-                return promise.fulfill(foundUser);
-              User.createWithFB(fbUser, accessTok, function (err, createdUser) {
-                return promise.fulfill(createdUser);
-              });
-            });
-        } 
+        , User: function () {
+            return User;
+          }
       }
     }
   , password: {
