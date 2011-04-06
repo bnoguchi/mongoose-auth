@@ -1,0 +1,16 @@
+- if (!everyauth.loggedIn)
+  h2 Not Authenticated
+  #register
+    a(href: '/register') Register
+  #password-login
+    a(href: '/login', style: 'border: 0px') Login with Password
+  #fb-login.fb_button(style: 'float: left; background-position:left -188px')
+    a.fb_button_medium(href: '/auth/facebook')
+      span#fb_login_text.fb_button_text
+        Connect with Facebook
+- else
+  h2 Authenticated
+  - if (everyauth.facebook)
+    p= JSON.stringify(everyauth.facebook.user)
+  h3
+    a(href: '/logout') Logout
