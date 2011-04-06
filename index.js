@@ -1,7 +1,8 @@
+var everyauth = require('everyauth');
+
 var Modules = {
     password: require('./lib/modules/password')
   , facebook: require('./lib/modules/facebook')
-  , twitter: require('./lib/modules/twitter')
 };
 
 /**
@@ -10,22 +11,49 @@ var Modules = {
  * @param {Object} options per module
  * @api public
  */
-module.exports = function plugin (schema, opts) {
+exports = module.exports = function plugin (schema, opts) {
   var moduleName
-    , decorate
-    , moduleOpts;
+    , decorateSchema
+    , moduleOpts
+    , module
+    , everyauthConfig
+    , everyauthDefaults;
   if (Object.keys(opts).length === 0)
     throw new Error('You must specify at least one module.');
   for (moduleName in opts) {
-    try {
-      decorate = Modules[moduleName].schema;
-    } catch (e) {
+    module = Modules[moduleName];
+    if (!module)
       throw new Error("Missing module named " + moduleName);
-    }
+
+    decorateSchema = Modules[moduleName].schema;
+
     moduleOpts = opts[moduleName];
     if (moduleOpts === true) {
-      moduleOpts = {}
+      moduleOpts = {};
     }
-    decorate(schema, {});
+
+    everyauthConfig = moduleOpts.everyauth || {};
+    // Module specific defaults for everyauth
+    everyauthDefaults = module.everyauth;
+    for (var k in everyauthDefaults) {
+      if (!everyauthConfig[k])
+        everyauthConfig[k] = everyauthDefaults[k];
+    }
+   
+    // Configure everyauth for this module 
+    for (var k in everyauthConfig) {
+      everyauth[moduleName][k]( everyauthConfig[k] );
+    }
+
+    decorateSchema(schema, {});
   }
+
+  // Delegate middleware method to
+  // everyauth's middleware method
+  exports.middleware = everyauth.middleware;
+
+  // Delegate helpExpress method to everyauth.
+  // Adds dynamic helpers such as loggedIn,
+  // accessible from the views
+  exports.helpExpress = everyauth.helpExpress;
 };
