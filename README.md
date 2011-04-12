@@ -16,7 +16,7 @@ mongoose-auth supports the following authorization strategies:
 mongoose-auth does 3 things:
 
 1. Schema decoration
-2. (optional) Drop in routing and event handling for 
+2. (optional) Drop in routing for 
    (connect)[https://github.com/senchalabs/connect] apps.
 3. (optional) Dynamic helpers for 
    (express)[https://github.com/visionmedia/express] apps.
@@ -39,7 +39,7 @@ To decorate your schema:
       facebook: true
     });
 
-## Beyond Schema Decoration: Routing and Event Handling
+## Beyond Schema Decoration: Routing
 
 Applications require more than just User Schema augmentation in order
 to implement a complete authorization strategy. Applications also need
@@ -53,19 +53,120 @@ you with Schema decoration.
 
 But, if you are building your app on top of
 (connect)[https://github.com/senchalabs/connect], then mongoose-auth
-provides drop in solutions for:
+provides drop in solutions for you. Here is how you can get access
+to the routing that mongoose-auth provides:
 
-1. Complete routing and event handling support for the authorization strategies. What this means is:
-   - Set up routes to support every step involved in an auth strategy.
-   - Exposing important events (e.g., `authSucceed`, `logout`), so the
-     developer can define exactly how (s)he wants the application to handle
-     each type of authorization event.
-2. Routing and event handling support for other desired authorization features such as
-   - Registration confirmation by email
-   - Password recovery
-   - Remembering logins via persistent cookies
-   - Locking a user out after X successive failed logins
-   - Tracking user login activity
-   - Logging a user out after a timeout of a certain amount of time
+    var mongoose = require('mongoose')
+      , Schema = mongoose.Schema
+      , mongooseAuth = require('mongoose-auth');
+    
+    var UserSchema = new Schema({})
+      , User;
+    
+    // A configuration file for holding all of your
+    // 3rd party OAuth credentials
+    var conf = require('./conf');
 
-mongoose-auth tries to be modular and comprehensive.
+    UserSchema.plugin(mongooseAuth, {
+        facebook: {
+          everyauth: {
+              myHostname: 'http://localhost:3000'
+            , appId: conf.fb.appId
+            , appSecret: conf.fb.appSecret
+            , redirectPath: '/'
+            , User: function () {
+                return User;
+              }
+          }
+        }
+    });
+    
+    mongoose.model('User', UserSchema);
+
+    mongoose.connect('mongodb://localhost/example');
+
+    User = mongoose.model('User');
+
+    var app = express.createServer(
+        express.bodyParser()
+      , express.static(__dirname + "/public")
+      , express.cookieParser()
+      , express.session({ secret: 'esoognom'})
+      , mongooseAuth.middleware()
+    );
+    
+    mongooseAuth.helpExpress(app);
+
+    app.listen(3000);
+
+## Using Multiple Authorization Strategies at Once
+
+You can also use multiple authorization strategies in the same application.
+Here is an example, using 5 authorization strategies:
+
+    // A configuration file for holding all of your
+    // 3rd party OAuth credentials
+    var conf = require('./conf');
+    // A configuration file for holding all of your
+    // 3rd party OAuth credentials
+    var conf = require('./conf');
+    UserSchema.plugin(mongooseAuth, {
+        facebook: {
+          everyauth: {
+              myHostname: 'http://localhost:3000'
+            , appId: conf.fb.appId
+            , appSecret: conf.fb.appSecret
+            , redirectPath: '/'
+            , User: function () {
+                return User;
+              }
+          }
+        }
+      , twitter: {
+          everyauth: {
+              myHostname: 'http://localhost:3000'
+            , consumerKey: conf.twit.consumerKey
+            , consumerSecret: conf.twit.consumerSecret
+            , redirectPath: '/'
+            , User: function () {
+                return User;
+              }
+          }
+        }
+      , password: {
+            everyauth: {
+                getLoginPath: '/login'
+              , postLoginPath: '/login'
+              , loginView: 'login.jade'
+              , getRegisterPath: '/register'
+              , postRegisterPath: '/register'
+              , registerView: 'register.jade'
+              , redirectPath: '/'
+              , User: function () {
+                  return User;
+                }
+            }
+        }
+      , github: {
+          everyauth: {
+              myHostname: 'http://localhost:3000'
+            , appId: conf.github.appId
+            , appSecret: conf.github.appSecret
+            , redirectPath: '/'
+            , User: function () {
+                return User;
+              }
+          }
+        }
+      , instagram: {
+          everyauth: {
+              myHostname: 'http://localhost:3000'
+            , appId: conf.instagram.clientId
+            , appSecret: conf.instagram.clientSecret
+            , redirectPath: '/'
+            , User: function () {
+                return User;
+              }
+          }
+        }
+    });
