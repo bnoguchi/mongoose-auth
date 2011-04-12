@@ -173,3 +173,20 @@ Here is an example, using 5 authorization strategies:
           }
         }
     });
+
+## Example
+
+There is an example app located in [./example](https://github.com/bnoguchi/mongoose-auth/tree/master/example).
+To run it:
+
+    $ cd example
+    $ node server.js
+
+Then navigate to http://localhost:3000/
+
+### License
+MIT License
+
+---
+### Author
+Brian Noguchi
