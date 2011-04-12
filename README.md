@@ -56,7 +56,8 @@ you with Schema decoration.
 But, if you are building your app on top of
 (connect)[https://github.com/senchalabs/connect], then mongoose-auth
 provides drop in solutions for you. Here is how you can get access
-to the routing that mongoose-auth provides:
+to the routing that mongoose-auth provides. Not the "STEP X: ..."
+comments:
 
     var mongoose = require('mongoose')
       , Schema = mongoose.Schema
@@ -64,17 +65,14 @@ to the routing that mongoose-auth provides:
     
     var UserSchema = new Schema({})
       , User;
-    
-    // A configuration file for holding all of your
-    // 3rd party OAuth credentials
-    var conf = require('./conf');
-
+   
+    // STEP 1: Schema Decoration and Configuration for the Routing
     UserSchema.plugin(mongooseAuth, {
         facebook: {
           everyauth: {
               myHostname: 'http://localhost:3000'
-            , appId: conf.fb.appId
-            , appSecret: conf.fb.appSecret
+            , appId: 'YOUR APP ID HERE'
+            , appSecret: 'YOUR APP SECRET HERE'
             , redirectPath: '/'
             , User: function () {
                 return User;
@@ -82,7 +80,7 @@ to the routing that mongoose-auth provides:
           }
         }
     });
-    
+   
     mongoose.model('User', UserSchema);
 
     mongoose.connect('mongodb://localhost/example');
@@ -94,9 +92,12 @@ to the routing that mongoose-auth provides:
       , express.static(__dirname + "/public")
       , express.cookieParser()
       , express.session({ secret: 'esoognom'})
+      
+        // STEP 2: Add in the Routing
       , mongooseAuth.middleware()
     );
-    
+   
+    // STEP 3: Add in Dynamic View Helpers 
     mongooseAuth.helpExpress(app);
 
     app.listen(3000);
