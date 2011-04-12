@@ -7,6 +7,8 @@ everyauth.everymodule.configurable({
 var Modules = {
     password: require('./lib/modules/password')
   , facebook: require('./lib/modules/facebook')
+  , twitter: require('./lib/modules/twitter')
+  , github: require('./lib/modules/github')
 };
 
 /**
@@ -19,17 +21,17 @@ exports = module.exports = function plugin (schema, opts) {
   var moduleName
     , decorateSchema
     , moduleOpts
-    , module
+    , _module
     , everyauthConfig
     , everyauthDefaults;
   if (Object.keys(opts).length === 0)
     throw new Error('You must specify at least one module.');
   for (moduleName in opts) {
-    module = Modules[moduleName];
-    if (!module)
+    _module = Modules[moduleName];
+    if (!_module)
       throw new Error("Missing module named " + moduleName);
 
-    decorateSchema = Modules[moduleName].schema;
+    decorateSchema = _module.schema;
 
     moduleOpts = opts[moduleName];
     if (moduleOpts === true) {
@@ -38,7 +40,7 @@ exports = module.exports = function plugin (schema, opts) {
 
     everyauthConfig = moduleOpts.everyauth || {};
     // Module specific defaults for everyauth
-    everyauthDefaults = module.everyauth;
+    everyauthDefaults = _module.everyauth;
     for (var k in everyauthDefaults) {
       if (!everyauthConfig[k])
         everyauthConfig[k] = everyauthDefaults[k];

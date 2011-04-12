@@ -11,6 +11,7 @@ mongoose-auth supports the following authorization strategies:
 
 - `password`
 - `facebook`
+- `twitter`
 
 mongoose-auth does 3 things:
 

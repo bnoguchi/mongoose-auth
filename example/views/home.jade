@@ -8,9 +8,22 @@
     a.fb_button_medium(href: '/auth/facebook')
       span#fb_login_text.fb_button_text
         Connect with Facebook
+  #twitter-login.fb_button(style: 'float: left; margin-left: 5px')
+    a(href: '/auth/twitter', style: 'border: 0px')
+      img(style='border: 0px', src: 'http://apiwiki.twitter.com/f/1242697715/Sign-in-with-Twitter-darker.png')
+  #github-login(style: 'float: left; margin-left: 5px')
+    a(href: '/auth/github', style: 'border: 0px')
+      img(style: 'border: 0px', src: 'http://github.com/intridea/authbuttons/raw/master/png/github_64.png')
 - else
   h2 Authenticated
   - if (everyauth.facebook)
+    h3 Facebook User Data
     p= JSON.stringify(everyauth.facebook.user)
+  - if (everyauth.twitter)
+    h3 Twitter User Data
+    p= JSON.stringify(everyauth.twitter.user)
+  - if (everyauth.github)
+    h3 GitHub User Data
+    p= JSON.stringify(everyauth.github.user)
   h3
     a(href: '/logout') Logout

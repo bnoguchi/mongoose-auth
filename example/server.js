@@ -5,6 +5,8 @@ var conf = require('./conf');
 var everyauth = require('everyauth')
   , Promise = everyauth.Promise;
 
+everyauth.debug = true;
+
 var mongoose = require('mongoose')
   , Schema = mongoose.Schema
   , ObjectId = mongoose.SchemaTypes.ObjectId;
@@ -17,9 +19,20 @@ var mongooseAuth = require('../index');
 UserSchema.plugin(mongooseAuth, {
     facebook: {
       everyauth: {
-          myHostname: 'http://local.host:3000'
+          myHostname: 'http://localhost:3000'
         , appId: conf.fb.appId
         , appSecret: conf.fb.appSecret
+        , redirectPath: '/'
+        , User: function () {
+            return User;
+          }
+      }
+    }
+  , twitter: {
+      everyauth: {
+          myHostname: 'http://localhost:3000'
+        , consumerKey: conf.twit.consumerKey
+        , consumerSecret: conf.twit.consumerSecret
         , redirectPath: '/'
         , User: function () {
             return User;
@@ -39,6 +52,17 @@ UserSchema.plugin(mongooseAuth, {
               return User;
             }
         }
+    }
+  , github: {
+      everyauth: {
+          myHostname: 'http://localhost:3000'
+        , appId: conf.github.appId
+        , appSecret: conf.github.appSecret
+        , redirectPath: '/'
+        , User: function () {
+            return User;
+          }
+      }
     }
 });
 // Adds login: String
