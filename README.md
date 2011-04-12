@@ -23,6 +23,11 @@ mongoose-auth does 3 things:
 3. (optional) Dynamic helpers for 
    (express)[https://github.com/visionmedia/express] apps.
 
+It integrates the [everyauth](https://github.com/bnoguchi/everyauth) module
+to help it take care of the routing and helpers. everyauth is a general
+purpose npm module for authentication & authorization that can be used
+independently of mongoose.
+
 ## Schema Decoration
 
 As you add successive authorization strategies, mongoose-auth at a bare
