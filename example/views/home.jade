@@ -14,6 +14,9 @@
   #github-login(style: 'float: left; margin-left: 5px')
     a(href: '/auth/github', style: 'border: 0px')
       img(style: 'border: 0px', src: 'http://github.com/intridea/authbuttons/raw/master/png/github_64.png')
+  #instagram-login(style: 'float: left; margin-left: 5px')
+    a(href: '/auth/instagram', style: 'border: 0px')
+      img(style: 'border: 0px', src: 'https://instagram.com/static/images/headerWithTitle.png')
 - else
   h2 Authenticated
   - if (everyauth.facebook)
@@ -25,5 +28,8 @@
   - if (everyauth.github)
     h3 GitHub User Data
     p= JSON.stringify(everyauth.github.user)
+  - if (everyauth.instagram)
+    h3 Instagram User Data
+    p= JSON.stringify(everyauth.instagram.user)
   h3
     a(href: '/logout') Logout

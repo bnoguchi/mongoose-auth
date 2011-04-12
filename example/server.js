@@ -64,6 +64,17 @@ UserSchema.plugin(mongooseAuth, {
           }
       }
     }
+  , instagram: {
+      everyauth: {
+          myHostname: 'http://localhost:3000'
+        , appId: conf.instagram.clientId
+        , appSecret: conf.instagram.clientSecret
+        , redirectPath: '/'
+        , User: function () {
+            return User;
+          }
+      }
+    }
 });
 // Adds login: String
 

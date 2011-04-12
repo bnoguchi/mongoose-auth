@@ -9,6 +9,7 @@ var Modules = {
   , facebook: require('./lib/modules/facebook')
   , twitter: require('./lib/modules/twitter')
   , github: require('./lib/modules/github')
+  , instagram: require('./lib/modules/instagram')
 };
 
 /**
