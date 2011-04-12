@@ -182,7 +182,7 @@ To run it:
     $ cd example
     $ node server.js
 
-Then navigate to http://localhost:3000/
+Then navigate to [http://localhost:3000/](http://localhost:3000)
 
 ### License
 MIT License
