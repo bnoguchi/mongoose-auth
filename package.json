@@ -1,7 +1,7 @@
 {
   "name": "mongoose-auth",
   "description": "User authentication plugin for mongoose node.js orm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "https://github.com/bnoguchi/mongoose-auth/",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
   "dependencies": {
     "bcrypt":">=0.2.0",
     "mongoose": ">=1.2.0",
-    "everyauth": ">=0.0.8"
+    "everyauth": ">=0.0.9"
   },
   "engines": {
     "node": "0.4.x"
