@@ -15,4 +15,8 @@ module.exports = {
         clientId: 'be147b077ddf49368d6fb5cf3112b9e0'
       , clientSecret: 'b65ad83daed242c0aa059ffae42feddd'
     }
+  , foursquare: {
+        clientId: 'VUGE4VHJMKWALKDKIOH1HLD1OQNHTC0PBZZBUQSHJ3WKW04K'
+      , clientSecret: '0LVAGARGUN05DEDDRVWNIMH4RFIHEFV0CERU3OITAZW1CXGX'
+    }
 };

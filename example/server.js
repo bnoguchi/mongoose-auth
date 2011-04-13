@@ -19,7 +19,7 @@ var mongooseAuth = require('../index');
 UserSchema.plugin(mongooseAuth, {
     facebook: {
       everyauth: {
-          myHostname: 'http://localhost:3000'
+          myHostname: 'http://local.host:3000'
         , appId: conf.fb.appId
         , appSecret: conf.fb.appSecret
         , redirectPath: '/'
@@ -30,7 +30,7 @@ UserSchema.plugin(mongooseAuth, {
     }
   , twitter: {
       everyauth: {
-          myHostname: 'http://localhost:3000'
+          myHostname: 'http://local.host:3000'
         , consumerKey: conf.twit.consumerKey
         , consumerSecret: conf.twit.consumerSecret
         , redirectPath: '/'
@@ -55,7 +55,7 @@ UserSchema.plugin(mongooseAuth, {
     }
   , github: {
       everyauth: {
-          myHostname: 'http://localhost:3000'
+          myHostname: 'http://local.host:3000'
         , appId: conf.github.appId
         , appSecret: conf.github.appSecret
         , redirectPath: '/'
@@ -66,7 +66,7 @@ UserSchema.plugin(mongooseAuth, {
     }
   , instagram: {
       everyauth: {
-          myHostname: 'http://localhost:3000'
+          myHostname: 'http://local.host:3000'
         , appId: conf.instagram.clientId
         , appSecret: conf.instagram.clientSecret
         , redirectPath: '/'
