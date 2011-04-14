@@ -102,10 +102,33 @@ comments:
       , mongooseAuth.middleware()
     );
    
-    // STEP 3: Add in Dynamic View Helpers 
+    // STEP 3: Add in Dynamic View Helpers (only if you are using express)
     mongooseAuth.helpExpress(app);
 
     app.listen(3000);
+
+## View Helpers and Convenience Methods & Getters
+
+In "Step 3" of the last code sample, we are adding dynamic view helpers, for if
+you are using the [Express](https://github.com/visionmedia/express) web framework.
+This automically gives you access to a convenient `everyauth` local variable from
+your view, so you do not have to pass `req` as a local to your view:
+
+- `everyauth.loggedIn` - a Boolean getter that tells you if the request is by a logged in user
+- `everyauth.facebook` - The is equivalent to what is stored at `req.session.auth.facebook`, 
+  so you can do things like ...
+- `everyauth.facebook.user` - returns the user json provided from the OAuth provider.
+- `everyauth.facebook.accessToken` - returns the access_token provided from the OAuth provider
+  for authorized API calls on behalf of the user.
+- And you also get this pattern for other modules - e.g., `everyauth.twitter.user`, 
+  `everyauth.github.user`, etc.
+
+The "STEP 2: Add in the Routing" step in the last code sample also provides convenience methods on the
+`ServerRequest` instance `req`. From any scope that has access to `req`, you get the following
+convenience getter and method:
+
+- `req.loggedIn` - a Boolean getter that tells you if the request is by a logged in user
+- `req.logout()` - clears the sesion of your auth data
 
 ## Using Multiple Authorization Strategies at Once
 
