@@ -23,12 +23,16 @@ exports = module.exports = function plugin (schema, opts) {
     , decorateSchema
     , moduleOpts
     , _module
+    , activeModules    
     , everyauthConfig
     , everyauthDefaults;
   if (Object.keys(opts).length === 0)
     throw new Error('You must specify at least one module.');
+  activeModules = {};    
   for (moduleName in opts) {
     _module = Modules[moduleName];
+    //Only use those modules which have been specified
+    activeModules[moduleName] = everyauth.modules[moduleName];
     if (!_module)
       throw new Error("Missing module named " + moduleName);
 
@@ -54,6 +58,9 @@ exports = module.exports = function plugin (schema, opts) {
 
     decorateSchema(schema, {});
   }
+
+  //Copy specified modules back to everyauth
+  everyauth.modules = activeModules;
 
   // Delegate middleware method to
   // everyauth's middleware method
