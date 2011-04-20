@@ -37,6 +37,7 @@ one of your authorization strategies, then it will add attributes to your
 User Schema such as 'fb.id' and 'fb.email'.
 
 To decorate your schema:
+
 ```javascript
     var mongoose = require('mongoose')
       , Schema = mongoose.Schema
@@ -66,6 +67,7 @@ provides drop in solutions for you. Here is how you can get access
 to the routing that mongoose-auth provides. Not the "STEP X: ..."
 comments:
 
+```javascript
     var mongoose = require('mongoose')
       , Schema = mongoose.Schema
       , mongooseAuth = require('mongoose-auth');
@@ -108,6 +110,7 @@ comments:
     mongooseAuth.helpExpress(app);
 
     app.listen(3000);
+```
 
 ## View Helpers and Convenience Methods & Getters
 
@@ -137,6 +140,7 @@ convenience getter and method:
 You can also use multiple authorization strategies in the same application.
 Here is an example, using 5 authorization strategies:
 
+```javascript
     // A configuration file for holding all of your
     // 3rd party OAuth credentials
     var conf = require('./conf');
@@ -203,6 +207,7 @@ Here is an example, using 5 authorization strategies:
           }
         }
     });
+```
 
 ## Example
 
