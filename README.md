@@ -37,6 +37,7 @@ one of your authorization strategies, then it will add attributes to your
 User Schema such as 'fb.id' and 'fb.email'.
 
 To decorate your schema:
+```javascript
     var mongoose = require('mongoose')
       , Schema = mongoose.Schema
       , mongooseAuth = require('mongoose-auth');
@@ -45,6 +46,7 @@ To decorate your schema:
     UserSchema.plugin(mongooseAuth, {
       facebook: true
     });
+```
 
 ## Beyond Schema Decoration: Routing
 
