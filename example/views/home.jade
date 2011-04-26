@@ -19,6 +19,7 @@
       img(style: 'border: 0px', src: 'https://instagram.com/static/images/headerWithTitle.png')
 - else
   h2 Authenticated
+  #user-id Logged in with `user.id` #{user.id} - aka `everyauth.user.id` #{everyauth.user.id}
   - if (everyauth.facebook)
     h3 Facebook User Data
     p= JSON.stringify(everyauth.facebook.user)

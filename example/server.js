@@ -17,15 +17,19 @@ var UserSchema = new Schema({})
 var mongooseAuth = require('../index');
 
 UserSchema.plugin(mongooseAuth, {
-    facebook: {
+    everymodule: {
+      everyauth: {
+          User: function () {
+            return User;
+          }
+      }
+    }
+  , facebook: {
       everyauth: {
           myHostname: 'http://local.host:3000'
         , appId: conf.fb.appId
         , appSecret: conf.fb.appSecret
         , redirectPath: '/'
-        , User: function () {
-            return User;
-          }
       }
     }
   , twitter: {
@@ -34,9 +38,6 @@ UserSchema.plugin(mongooseAuth, {
         , consumerKey: conf.twit.consumerKey
         , consumerSecret: conf.twit.consumerSecret
         , redirectPath: '/'
-        , User: function () {
-            return User;
-          }
       }
     }
   , password: {
@@ -48,9 +49,6 @@ UserSchema.plugin(mongooseAuth, {
           , postRegisterPath: '/register'
           , registerView: 'register.jade'
           , redirectPath: '/'
-          , User: function () {
-              return User;
-            }
         }
     }
   , github: {
@@ -59,9 +57,6 @@ UserSchema.plugin(mongooseAuth, {
         , appId: conf.github.appId
         , appSecret: conf.github.appSecret
         , redirectPath: '/'
-        , User: function () {
-            return User;
-          }
       }
     }
   , instagram: {
@@ -70,9 +65,6 @@ UserSchema.plugin(mongooseAuth, {
         , appId: conf.instagram.clientId
         , appSecret: conf.instagram.clientSecret
         , redirectPath: '/'
-        , User: function () {
-            return User;
-          }
       }
     }
 });
@@ -98,6 +90,7 @@ app.configure( function () {
 });
 
 app.get('/', function (req, res) {
+  console.log(req.user);
   res.render('home');
 });
 
