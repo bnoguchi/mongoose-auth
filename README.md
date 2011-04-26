@@ -294,7 +294,7 @@ function assignFbDataToUser (user, accessTok, accessTokExtra, fbUser) {
 }
 ```
 
-As this is a common recipe, I plan on adding support for this into `everyauth` and `mongoose-auth`, so it's more drop-in, and developers do not have to add this custom code themselves. The intent is for common things like this to be invisible to the developer, so it just "works like magic." So, in the near future, you won't have to over-ride the findOrCreateUser step every time you want this feature. This will be coming soon.
+As this is a common recipe, I plan on adding support for this into `everyauth` and `mongoose-auth`, so it's more drop-in, and developers do not have to add this custom code themselves. The intent is for common things like this to be invisible to the developer, so it just *works* *like* *magic*. So, in the near future, you won't have to over-ride the findOrCreateUser step every time you want this feature. This will be coming soon.
 
 
 ### License
