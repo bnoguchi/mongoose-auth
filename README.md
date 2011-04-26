@@ -77,15 +77,21 @@ comments:
    
     // STEP 1: Schema Decoration and Configuration for the Routing
     UserSchema.plugin(mongooseAuth, {
-        facebook: {
+        // Here, we attach your User model to every module
+        everymodule: {
+          everyauth: {
+              User: function () {
+                return User;
+              }
+          }
+        }
+        
+      , facebook: {
           everyauth: {
               myHostname: 'http://localhost:3000'
             , appId: 'YOUR APP ID HERE'
             , appSecret: 'YOUR APP SECRET HERE'
             , redirectPath: '/'
-            , User: function () {
-                return User;
-              }
           }
         }
     });
@@ -120,6 +126,7 @@ This automically gives you access to a convenient `everyauth` local variable fro
 your view, so you do not have to pass `req` as a local to your view:
 
 - `everyauth.loggedIn` - a Boolean getter that tells you if the request is by a logged in user
+- `everyauth.user` - the mongoose User document associated with the session
 - `everyauth.facebook` - The is equivalent to what is stored at `req.session.auth.facebook`, 
   so you can do things like ...
 - `everyauth.facebook.user` - returns the user json provided from the OAuth provider.
@@ -128,11 +135,25 @@ your view, so you do not have to pass `req` as a local to your view:
 - And you also get this pattern for other modules - e.g., `everyauth.twitter.user`, 
   `everyauth.github.user`, etc.
 
+You also get access to the view helper
+
+- `user` - the same as `everyauth.user` above
+
+As an example of how you would use these, consider the following `./views/user.jade` jade template:
+
+    .user-id
+      .label User Id
+      .value #{user.id}
+    .facebook-id
+      .label User Facebook Id
+      .value #{everyauth.facebook.user.id}
+
 The "STEP 2: Add in the Routing" step in the last code sample also provides convenience methods on the
 `ServerRequest` instance `req`. From any scope that has access to `req`, you get the following
 convenience getter and method:
 
 - `req.loggedIn` - a Boolean getter that tells you if the request is by a logged in user
+- `req.user`     - the mongoose User document associated with the session
 - `req.logout()` - clears the sesion of your auth data
 
 ## Using Multiple Authorization Strategies at Once
@@ -148,15 +169,20 @@ Here is an example, using 5 authorization strategies:
     // 3rd party OAuth credentials
     var conf = require('./conf');
     UserSchema.plugin(mongooseAuth, {
-        facebook: {
+        // Here, we attach your User model to every module
+        everymodule: {
+          everyauth: {
+              User: function () {
+                return User;
+              }
+          }
+        }
+      , facebook: {
           everyauth: {
               myHostname: 'http://localhost:3000'
             , appId: conf.fb.appId
             , appSecret: conf.fb.appSecret
             , redirectPath: '/'
-            , User: function () {
-                return User;
-              }
           }
         }
       , twitter: {
@@ -165,9 +191,6 @@ Here is an example, using 5 authorization strategies:
             , consumerKey: conf.twit.consumerKey
             , consumerSecret: conf.twit.consumerSecret
             , redirectPath: '/'
-            , User: function () {
-                return User;
-              }
           }
         }
       , password: {
@@ -179,9 +202,6 @@ Here is an example, using 5 authorization strategies:
               , postRegisterPath: '/register'
               , registerView: 'register.jade'
               , redirectPath: '/'
-              , User: function () {
-                  return User;
-                }
             }
         }
       , github: {
@@ -190,9 +210,6 @@ Here is an example, using 5 authorization strategies:
             , appId: conf.github.appId
             , appSecret: conf.github.appSecret
             , redirectPath: '/'
-            , User: function () {
-                return User;
-              }
           }
         }
       , instagram: {
@@ -201,9 +218,6 @@ Here is an example, using 5 authorization strategies:
             , appId: conf.instagram.clientId
             , appSecret: conf.instagram.clientSecret
             , redirectPath: '/'
-            , User: function () {
-                return User;
-              }
           }
         }
     });
