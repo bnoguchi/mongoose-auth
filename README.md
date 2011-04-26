@@ -219,6 +219,84 @@ To run it:
 
 Then navigate to [http://localhost:3000/](http://localhost:3000)
 
+## Linking Multiple Account Logins Together
+
+A common recipe is allowing a user to login via multiple accounts *and* to link those accounts under one user
+document.
+
+This can be done in the following way:
+
+The real magic lies with https://github.com/bnoguchi/everyauth/, and it should be more obvious once 
+I document everyauth more and document mongoose-auth's relationship to everyauth.
+
+In `everyauth`'s design, every auth module is defined as a set of steps, which are exposed in such a way for 
+you to over-ride. The step that is of particular interest for this scenario is the `findOrCreateUser` step 
+required by every `everyauth` module.  `mongoose-auth` defines a default version of this `findOrCreateUser` 
+step for each `everyauth` auth module it supports (You can find these default definitions in 
+"lib/modules/#{moduleName}/everyauth.js" -- e.g., see 
+[.lib/modules/facebook/everyauth.js](https://github.com/bnoguchi/mongoose-auth/tree/master/lib/modules/facebook/everyauth.js)).
+
+So for example, this is how you would over-ride the default `findOrCreateUser` step for the 
+facebook module if you are using both the facebook and password module:
+
+```javascript
+var Promise = require('everyauth').Promise;
+
+UserSchema.plugin(mongooseAuth, {
+  facebook: {
+    everyauth: {
+        myHostname: ...
+      , ...
+      , findOrCreateUser: function (session, accessTok, accessTokExtra, fbUser) {
+          var promise = new Promise()
+              , User = this.User()();
+          User.findById(session.auth.userId, function (err, user) {
+            if (err) return promise.fail(err);
+            if (!user) {
+              User.where('password.login', fbUser.email).findOne( function (err, user) {
+                if (err) return promise.fail(err);
+                if (!user) {
+                  User.createWithFB(fbUser, accessTok, accessTokExtra.expires, function (err, createdUser) {
+                    if (err) return promise.fail(err);
+                    return promise.fulfill(createdUser);
+                  });
+                } else {
+                  assignFbDataToUser(user, accessTok, accessTokExtra, fbUser);
+                  user.save( function (err, user) {
+                    if (err) return promise.fail(err);
+                    promise.fulfill(user);
+                  });
+                }
+              });
+            } else {
+              assignFbDataToUser(user, accessTok, accessTokExtra, fbUser);
+              
+              // Save the new data to the user doc in the db
+              user.save( function (err, user) {
+                if (err) return promise.fail(err);
+                promise.fuilfill(user);
+              });
+            }
+          });
+        });
+        return promise; // Make sure to return the promise that promises the user
+      }
+  }
+});
+
+// Assign all properties - see lib/modules/facebook/schema.js for details
+function assignFbDataToUser (user, accessTok, accessTokExtra, fbUser) {
+  user.fb.accessToken = accessTok;
+  user.fb.expires = accessTokExtra.expires;
+  user.fb.id = fbUser.id;
+  user.fb.name.first = fbUser.first_name;
+  // etc. more assigning...
+}
+```
+
+As this is a common recipe, I plan on adding support for this into `everyauth` and `mongoose-auth`, so it's more drop-in, and developers do not have to add this custom code themselves. The intent is for common things like this to be invisible to the developer, so it just "works like magic." So, in the near future, you won't have to over-ride the findOrCreateUser step every time you want this feature. This will be coming soon.
+
+
 ### License
 MIT License
 
