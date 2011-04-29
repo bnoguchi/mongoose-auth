@@ -71,3 +71,5 @@ exports = module.exports = function plugin (schema, opts) {
   // accessible from the views
   exports.helpExpress = everyauth.helpExpress;
 };
+
+exports.Promise = everyauth.Promise;

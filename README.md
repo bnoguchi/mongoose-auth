@@ -254,7 +254,7 @@ So for example, this is how you would over-ride the default `findOrCreateUser` s
 facebook module if you are using both the facebook and password module:
 
 ```javascript
-var Promise = require('everyauth').Promise;
+var Promise = mongooseAuth.Promise;
 
 UserSchema.plugin(mongooseAuth, {
   facebook: {
