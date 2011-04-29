@@ -1,7 +1,7 @@
 {
   "name": "mongoose-auth",
   "description": "User authentication plugin for mongoose node.js orm",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "homepage": "https://github.com/bnoguchi/mongoose-auth/",
   "repository": {
     "type": "git",
