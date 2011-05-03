@@ -41,14 +41,16 @@ UserSchema.plugin(mongooseAuth, {
       }
     }
   , password: {
-        everyauth: {
+        loginWith: 'email'
+      , everyauth: {
             getLoginPath: '/login'
           , postLoginPath: '/login'
           , loginView: 'login.jade'
           , getRegisterPath: '/register'
           , postRegisterPath: '/register'
           , registerView: 'register.jade'
-          , redirectPath: '/'
+          , loginSuccessRedirect: '/'
+          , registerSuccessRedirect: '/'
         }
     }
   , github: {
@@ -90,7 +92,6 @@ app.configure( function () {
 });
 
 app.get('/', function (req, res) {
-  console.log(req.user);
   res.render('home');
 });
 

@@ -13,6 +13,10 @@ var Modules = {
   , instagram: require('./lib/modules/instagram')
 };
 
+// Mostly, we need this because password needs to be loaded before everything else
+// so that other modules can use everyauth.password.loginKey()
+var moduleLoadOrder = ['everymodule', 'password', 'facebook', 'twitter', 'github', 'instagram'];
+
 /**
  * Decorates the (User) Schema with the proper attributes.
  * @param {Schema} schema that gets decorated
@@ -20,12 +24,6 @@ var Modules = {
  * @api public
  */
 exports = module.exports = function plugin (schema, opts) {
-  var moduleName
-    , decorateSchema
-    , moduleOpts
-    , _module
-    , everyauthConfig
-    , everyauthDefaults;
   if (Object.keys(opts).length === 0)
     throw new Error('You must specify at least one module.');
 
@@ -33,22 +31,24 @@ exports = module.exports = function plugin (schema, opts) {
   // run the everyauth defaults for everymodule later
   opts.everymodule || (opts.everymodule = true);
 
-  for (moduleName in opts) {
-    _module = Modules[moduleName];
+  moduleLoadOrder.filter( function (moduleName) {
+    return moduleName in opts;
+  }).forEach( function (moduleName) {
+    var _module = Modules[moduleName];
     if (!_module)
       throw new Error("Missing module named " + moduleName);
 
-    decorateSchema = _module.schema;
+    var decorateSchema = _module.plugin;
 
-    moduleOpts = opts[moduleName];
+    var moduleOpts = opts[moduleName];
     if (moduleOpts === true) {
       moduleOpts = {};
     }
 
-    everyauthConfig = moduleOpts.everyauth || {};
+    var everyauthConfig = moduleOpts.everyauth || {};
 
     // Module specific defaults for everyauth
-    everyauthDefaults = _module.everyauth;
+    var everyauthDefaults = _module.everyauth;
     for (var k in everyauthDefaults) {
       if (!everyauthConfig[k])
         everyauthConfig[k] = everyauthDefaults[k];
@@ -59,8 +59,19 @@ exports = module.exports = function plugin (schema, opts) {
       everyauth[moduleName][k]( everyauthConfig[k] );
     }
 
+    // Parse special opts
+    var val, handler;
+    for (var opt in moduleOpts) {
+      if (~['everyauth', 'everymodule'].indexOf(opt))
+        continue;
+      handler = _module.specialOptHandlers[opt];
+      if (!handler) continue;
+      val = moduleOpts[opt];
+      handler(val);
+    }
+
     decorateSchema(schema, {});
-  }
+  });
 
   // Delegate middleware method to
   // everyauth's middleware method

@@ -18,6 +18,10 @@
     "everyauth": ">=0.1.6",
     "mongoose-types": ">=1.0.3"
   },
+  "devDependencies": {
+    "express": ">=2.3.2",
+    "jade": ">=0.10.6"
+  },
   "engines": {
     "node": "0.4.x"
   }
