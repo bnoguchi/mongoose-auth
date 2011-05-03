@@ -1,3 +1,7 @@
+- if ('undefined' !== typeof errors && errors.length)
+  #errors
+    - each error in errors
+      li.error= error
 form(action: '/login', method: 'POST')
   #login
     label(for: 'login') Login

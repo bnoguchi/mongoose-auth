@@ -201,7 +201,8 @@ Here is an example, using 5 authorization strategies:
               , getRegisterPath: '/register'
               , postRegisterPath: '/register'
               , registerView: 'register.jade'
-              , redirectPath: '/'
+              , loginSuccessRedirect: '/'
+              , registerSuccessRedirect: '/'
             }
         }
       , github: {
@@ -254,15 +255,13 @@ So for example, this is how you would over-ride the default `findOrCreateUser` s
 facebook module if you are using both the facebook and password module:
 
 ```javascript
-var Promise = mongooseAuth.Promise;
-
 UserSchema.plugin(mongooseAuth, {
   facebook: {
     everyauth: {
         myHostname: ...
       , ...
       , findOrCreateUser: function (session, accessTok, accessTokExtra, fbUser) {
-          var promise = new Promise()
+          var promise = this.Promise()
               , User = this.User()();
           User.findById(session.auth.userId, function (err, user) {
             if (err) return promise.fail(err);
