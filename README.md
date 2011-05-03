@@ -352,7 +352,7 @@ instead of the default `login` String attribute. Moreover, it will automatically
 validation checks to make sure that the email is valid before registering a user through
 the registration process of the password module.
 
-Recipe 3: Extra password registration data besides login + password
+## Recipe 3: Extra password registration data besides login + password
 
 Sometimes your registration will ask for more information from the user besides the login and password.
 
