@@ -346,11 +346,60 @@ UserSchema.plugin(mongooseAuth, {
     }
 });
 ```
+
 Automatically, `mongoose-auth` will use an `email` String attribute in your User schema
 instead of the default `login` String attribute. Moreover, it will automatically add in
 validation checks to make sure that the email is valid before registering a user through
 the registration process of the password module.
 
+Recipe 3: Extra password registration data besides login + password
+
+Sometimes your registration will ask for more information from the user besides the login and password.
+
+For this particular scenario, you can configure the optional step, `extractExtraRegistrationParams`.
+
+```javascript
+UserSchema.plugin(mongooseAuth, {
+    // Here, we attach your User model to every module
+    everymodule: {
+      everyauth: {
+          User: function () {
+            return User;
+          }
+      }
+    }
+  , password: {
+        extraParams: {
+            phone: String
+          , name: {
+                first: String
+              , last: String
+            }
+        }
+
+      , everyauth: {
+            getLoginPath: '/login'
+          , postLoginPath: '/login'
+          , loginView: 'login.jade'
+          , getRegisterPath: '/register'
+          , postRegisterPath: '/register'
+          , registerView: 'register.jade'
+          , loginSuccessRedirect: '/'
+          , registerSuccessRedirect: '/'
+          
+            // These are the NEW lines
+          , extractExtraRegistrationParams: function (req) {
+              return {
+                  phone: req.body.phone
+                , name: {
+                      first: req.body.first_name
+                  }
+              };
+            })
+        }
+    }
+});
+```
 
 ### License
 MIT License

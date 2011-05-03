@@ -42,6 +42,13 @@ UserSchema.plugin(mongooseAuth, {
     }
   , password: {
         loginWith: 'email'
+      , extraParams: {
+            phone: String
+          , name: {
+                first: String
+              , last: String
+            }
+        }
       , everyauth: {
             getLoginPath: '/login'
           , postLoginPath: '/login'

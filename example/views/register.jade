@@ -10,5 +10,14 @@ form(action: '/register', method: 'POST')
   #password
     label(for: everyauth.password.passwordFormFieldName) Password
     input(type: 'password', name: everyauth.password.passwordFormFieldName)
+  #phone
+    label(for: 'phone') Phone
+    input(type: 'text', name: 'phone')
+  #first-name
+    label(for: 'name.first') First Name
+    input(type: 'text', name: 'name.first')
+  #last-name
+    label(for: 'name.last') Last Name
+    input(type: 'text', name: 'name.last')
   #submit
     input(type: 'submit') Register
