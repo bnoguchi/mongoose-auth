@@ -234,7 +234,7 @@ To run it:
 
 Then navigate to [http://localhost:3000/](http://localhost:3000)
 
-## Linking Multiple Account Logins Together
+## Recipe 1: Linking Multiple Account Logins Together
 
 A common recipe is allowing a user to login via multiple accounts *and* to link those accounts under one user
 document.
@@ -308,6 +308,48 @@ function assignFbDataToUser (user, accessTok, accessTokExtra, fbUser) {
 ```
 
 As this is a common recipe, I plan on adding support for this into `everyauth` and `mongoose-auth`, so it's more drop-in, and developers do not have to add this custom code themselves. The intent is for common things like this to be invisible to the developer, so it just *works* *like* *magic*. So, in the near future, you won't have to over-ride the findOrCreateUser step every time you want this feature. This will be coming soon.
+
+## Recipe 2: Configuring Email or Phone to be your Login for the Password Module
+
+By default, `everyauth` and therefore `mongoose-auth` use the attribute `login` as the default attribute used for logging in
+with the password module.
+
+However, the need can arise to use a different attribute (such as email) that implies a different schema (use `email: String` instead of `login: String`)
+in addition to different validation assumptions (email validations are more strict that login handle validations).
+
+Luckily, `mongoose-auth` provide support for this out of the box. All you need to do is (look for the line labeled "THIS NEXT LINE IS THE ONLY ADDITION"):
+
+```javascript
+UserSchema.plugin(mongooseAuth, {
+    // Here, we attach your User model to every module
+    everymodule: {
+      everyauth: {
+          User: function () {
+            return User;
+          }
+      }
+    }
+  , password: {
+        // THIS NEXT LINE IS THE ONLY ADDITION
+        loginWith: 'email' // Or loginWith: 'phone'
+
+      , everyauth: {
+            getLoginPath: '/login'
+          , postLoginPath: '/login'
+          , loginView: 'login.jade'
+          , getRegisterPath: '/register'
+          , postRegisterPath: '/register'
+          , registerView: 'register.jade'
+          , loginSuccessRedirect: '/'
+          , registerSuccessRedirect: '/'
+        }
+    }
+});
+```
+Automatically, `mongoose-auth` will use an `email` String attribute in your User schema
+instead of the default `login` String attribute. Moreover, it will automatically add in
+validation checks to make sure that the email is valid before registering a user through
+the registration process of the password module.
 
 
 ### License
