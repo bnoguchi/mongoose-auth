@@ -19,9 +19,9 @@ mongoose-auth does 3 things:
 
 1. Schema decoration
 2. (optional) Drop in routing for 
-   (connect)[https://github.com/senchalabs/connect] apps.
+   [connect](https://github.com/senchalabs/connect) apps.
 3. (optional) Dynamic helpers for 
-   (express)[https://github.com/visionmedia/express] apps.
+   [express](https://github.com/visionmedia/express) apps.
 
 It integrates the [everyauth](https://github.com/bnoguchi/everyauth) module
 to help it take care of the routing and helpers. everyauth is a general
