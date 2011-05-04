@@ -57,12 +57,12 @@ routes exposing the one or more steps involved for a given authorization
 strategy. Moreover, applications each handle in their own unique way how
 they want to respond to successful or failed logins (in addition to logout
 handling). If you are not using a 
-(connect)[https://github.com/senchalabs/connect], then you will have to
+[connect](https://github.com/senchalabs/connect), then you will have to
 set all of this up yourself. In this case, mongoose-auth *only* provides
 you with Schema decoration.
 
 But, if you are building your app on top of
-(connect)[https://github.com/senchalabs/connect], then mongoose-auth
+[connect](https://github.com/senchalabs/connect), then mongoose-auth
 provides drop in solutions for you. Here is how you can get access
 to the routing that mongoose-auth provides. Not the "STEP X: ..."
 comments:
