@@ -356,7 +356,7 @@ the registration process of the password module.
 
 Sometimes your registration will ask for more information from the user besides the login and password.
 
-For this particular scenario, you can configure the optional step, `extractExtraRegistrationParams`.
+For this particular scenario, you can configure `extraParams`.
 
 ```javascript
 UserSchema.plugin(mongooseAuth, {
@@ -386,20 +386,21 @@ UserSchema.plugin(mongooseAuth, {
           , registerView: 'register.jade'
           , loginSuccessRedirect: '/'
           , registerSuccessRedirect: '/'
-          
-            // These are the NEW lines
-          , extractExtraRegistrationParams: function (req) {
-              return {
-                  phone: req.body.phone
-                , name: {
-                      first: req.body.first_name
-                  }
-              };
-            })
         }
     }
 });
 ```
+
+What this effectively does is:
+
+1. Adds `phone`, `name.first`, and `name.last` as attributes to your `UserSchema`.
+2. Automatically extracts the registration parameters after a visitor submits the registration
+   form and saves them to a new `User` document.
+   The registration form `<input>` `name`s should be, e.g., in the example above: 'phone', 
+   'name[first]', and 'name[last]'.
+
+Please see [./example/server.js](https://github.com/bnoguchi/mongoose-auth/tree/master/example/server.js#L45)
+for a live example.
 
 ### License
 MIT License
