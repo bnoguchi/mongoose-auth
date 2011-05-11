@@ -402,6 +402,24 @@ What this effectively does is:
 Please see [./example/server.js](https://github.com/bnoguchi/mongoose-auth/tree/master/example/server.js#L45)
 for a live example.
 
+## Recipe 4: Adding more attributes to your schema
+
+This one ha come up enough that it is here as a recipe, even though it is not specific to `mongoose-auth`. Suppose
+you want to add a special attribute such as `roles: [String]` to your UserSchema. This is something that you can do
+using just `mongoose`
+
+```javascript
+var UserSchema = new mongoose.Schema({
+    roles: [String]
+  , // other custom attributes
+});
+
+UserSchema.plugin(mongooseAuth, {
+  // mongooseAuth *adds* other attributes to your UserSchema
+  // depending on the auth modules you choose.
+});
+```
+
 ### License
 MIT License
 
