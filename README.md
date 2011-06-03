@@ -420,6 +420,76 @@ UserSchema.plugin(mongooseAuth, {
 });
 ```
 
+## Recipe 5: Customizing how you do password login authentication
+
+Currently, `mongoose-auth` does password authentication by login and password. Suppose you also want to authenticate
+by checking against an additional parameter, like `active`, which is a Boolean attribute on your UserSchema that
+indicates whether this user has been activated or not. Then you can modify the `authenticate` everyauth step in the
+following way:
+
+```javascript
+var UserSchema = new Schema({
+  active: Boolean
+}), User;
+UserSchema.plugin(mongooseAuth, {
+    everymodule: {
+      everyauth: {
+          User: function () {
+            return User;
+          }
+      }
+    }
+  , password: {
+        loginWith: 'email' 
+      , everyauth: {
+            getLoginPath: '/login'
+          , postLoginPath: '/login'
+          , loginView: 'login.jade'
+          , getRegisterPath: '/register'
+          , postRegisterPath: '/register'
+          , registerView: 'register.jade'
+          , loginSuccessRedirect: '/'
+          , registerSuccessRedirect: '/'
+   
+            // WHAT YOU ADD IS THE FOLLOWING:
+            // The logic is adapted from the default authenticate
+            // implementation in lib/modules/password/everyauth.js
+          , authenticate: function (login, password) {
+              var promise
+                , errors = []; 
+              if (!login) errors.push('Missing login.');
+              if (!password) errors.push('Missing password.');
+              if (errors.length) return errors;
+
+              promise = this.Promise();
+              this.User()().authenticate(login, password, function (err, user) {
+                if (err) {
+                  errors.push(err.message || err);
+                  return promise.fulfill(errors);
+                }   
+                if (!user) {
+                  errors.push('Failed login.');
+                  return promise.fulfill(errors);
+                }
+                
+                // The following block is the new code
+                if (!user.active) {
+                  errors.push('You are not yet activated.');
+                  return promise.fulfill(errors);
+                }
+                
+                promise.fulfill(user);
+              });
+              return promise;
+            }
+        }
+    }
+});
+mongoose.model('User', UserSchema);
+
+User = mongoose.model('User');
+```
+
 ### License
 MIT License
 
