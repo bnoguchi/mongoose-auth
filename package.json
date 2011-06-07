@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "express": ">=2.3.2",
-    "jade": ">=0.10.6"
+    "jade": ">=0.12.1"
   },
   "engines": {
     "node": "0.4.x"
