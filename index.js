@@ -75,10 +75,10 @@ exports = module.exports = function plugin (schema, opts) {
 
   // Delegate middleware method to
   // everyauth's middleware method
-  exports.middleware = everyauth.middleware;
+  exports.middleware = everyauth.middleware.bind(everyauth);
 
   // Delegate helpExpress method to everyauth.
   // Adds dynamic helpers such as loggedIn,
   // accessible from the views
-  exports.helpExpress = everyauth.helpExpress;
+  exports.helpExpress = everyauth.helpExpress.bind(everyauth);
 };
