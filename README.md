@@ -110,6 +110,11 @@ comments:
       
         // STEP 2: Add in the Routing
       , mongooseAuth.middleware()
+
+        // IMPORTANT!!!!!!! Do not add app.router, to your middleware chain 
+        // explicitly, or you will run into problems accessing `req.user`
+        // i.e., do not use app.use(app.router). Let express do this for you
+        // automatically for you upon your first app.get or app.post.
     );
    
     // STEP 3: Add in Dynamic View Helpers (only if you are using express)
