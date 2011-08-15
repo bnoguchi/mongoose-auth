@@ -208,6 +208,7 @@ Here is an example, using 5 authorization strategies:
               , registerView: 'register.jade'
               , loginSuccessRedirect: '/'
               , registerSuccessRedirect: '/'
+              , loginWith: 'login'
             }
         }
       , github: {
