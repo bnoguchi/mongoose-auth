@@ -11,7 +11,7 @@ var Modules = {
   , twitter: require('./lib/modules/twitter')
   , github: require('./lib/modules/github')
   , instagram: require('./lib/modules/instagram')
-  , google: require('../lib/modules/google')
+  , google: require('./lib/modules/google')
 };
 
 // Mostly, we need this because password needs to be loaded before everything else
