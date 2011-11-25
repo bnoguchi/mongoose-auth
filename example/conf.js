@@ -19,4 +19,8 @@ module.exports = {
         clientId: 'VUGE4VHJMKWALKDKIOH1HLD1OQNHTC0PBZZBUQSHJ3WKW04K'
       , clientSecret: '0LVAGARGUN05DEDDRVWNIMH4RFIHEFV0CERU3OITAZW1CXGX'
     }
+  , google: {
+        clientId: '224794776836-cp3a2v0elt955h9uqhgmskplhg85ljjm.apps.googleusercontent.com'
+      , clientSecret: 'rxGFo1mBG_H3DX2ifDFawiMZ'
+    }
 };
