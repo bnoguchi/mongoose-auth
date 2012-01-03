@@ -4,16 +4,18 @@
     a(href='/register') Register
   #password-login
     a(href='/login', style='border: 0px') Login with Password
-  #fb-login.fb_button(style='float: left; background-position:left -188px')
-    a.fb_button_medium(href='/auth/facebook')
-      span#fb_login_text.fb_button_text
-        Connect with Facebook
-  #twitter-login.fb_button(style='float: left; margin-left: 5px')
+  #fb-login(style='float: left; margin-left: 5px')
+    a(href='/auth/facebook', style='border: 0px')
+      img(style='border: 0px', src='http://github.com/intridea/authbuttons/raw/master/png/facebook_64.png')
+  #twitter-login(style='float: left; margin-left: 5px')
     a(href='/auth/twitter', style='border: 0px')
-      img(style='border: 0px', src='http://apiwiki.twitter.com/f/1242697715/Sign-in-with-Twitter-darker.png')
+      img(style='border: 0px', src='http://github.com/intridea/authbuttons/raw/master/png/twitter_64.png')
   #github-login(style='float: left; margin-left: 5px')
     a(href='/auth/github', style='border: 0px')
       img(style='border: 0px', src='http://github.com/intridea/authbuttons/raw/master/png/github_64.png')
+  #google-login(style='float: left; margin-left: 5px')
+    a(href='/auth/google', style='border: 0px')
+      img(style='border: 0px', src='http://github.com/intridea/authbuttons/raw/master/png/google_64.png')
   #instagram-login(style='float: left; margin-left: 5px')
     a(href='/auth/instagram', style='border: 0px')
       img(style='border: 0px', src='https://instagram.com/static/images/headerWithTitle.png')
@@ -29,6 +31,9 @@
   - if (everyauth.github)
     h3 GitHub User Data
     p= JSON.stringify(everyauth.github.user)
+  - if (everyauth.google)
+    h3 Google User Data
+    p= JSON.stringify(everyauth.google.user)
   - if (everyauth.instagram)
     h3 Instagram User Data
     p= JSON.stringify(everyauth.instagram.user)

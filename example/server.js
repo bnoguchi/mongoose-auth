@@ -76,6 +76,15 @@ UserSchema.plugin(mongooseAuth, {
         , redirectPath: '/'
       }
     }
+  , google: {
+      everyauth: {
+          myHostname: 'http://localhost:3000'
+        , appId: conf.google.clientId
+        , appSecret: conf.google.clientSecret
+        , redirectPath: '/'
+        , scope: 'https://www.google.com/m8/feeds'
+      }
+    }
 });
 // Adds login: String
 

@@ -1,11 +1,11 @@
 {
-  "name": "mongoose-auth",
-  "description": "User authentication plugin for mongoose node.js orm",
+  "name": "mongoose-auth-coalitions",
+  "description": "Coalitions fork of user authentication plugin for mongoose node.js orm",
   "version": "0.0.11",
-  "homepage": "https://github.com/bnoguchi/mongoose-auth/",
+  "homepage": "https://github.com/coalitions/mongoose-auth/",
   "repository": {
     "type": "git",
-    "url": "git://github.com/bnoguchi/mongoose-auth.git"
+    "url": "git://github.com/coalitions/mongoose-auth.git"
   },
   "author": "Brian Noguchi <brian.noguchi@gmail.com> (https://github.com/bnoguchi/)",
   "main": "./index.js",
@@ -15,7 +15,7 @@
   "dependencies": {
     "bcrypt":">=0.2.0",
     "mongoose": ">=1.4.0",
-    "everyauth": ">=0.2.11",
+    "everyauth": "0.2.23",
     "mongoose-types": ">=1.0.3"
   },
   "devDependencies": {
