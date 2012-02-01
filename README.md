@@ -170,9 +170,6 @@ Here is an example, using 5 authorization strategies:
     // A configuration file for holding all of your
     // 3rd party OAuth credentials
     var conf = require('./conf');
-    // A configuration file for holding all of your
-    // 3rd party OAuth credentials
-    var conf = require('./conf');
     UserSchema.plugin(mongooseAuth, {
         // Here, we attach your User model to every module
         everymodule: {
