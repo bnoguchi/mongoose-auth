@@ -1,7 +1,4 @@
 test:
-	@expresso test/authplugin.test.js
+	@node_modules/.bin/mocha
 
-test-cov:
-	@TESTFLAGS=--cov $(MAKE) test
-
-.PHONY: test test-cov
+.PHONY: test
