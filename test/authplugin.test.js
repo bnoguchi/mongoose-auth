@@ -11,8 +11,8 @@ UserSchema.plugin(authPlugin, {
 mongoose.model('User', UserSchema);
 User = mongoose.model('User');
 
-module.exports = {
-  "setting a user's password should generate a salt and set a hash": function () {
+describe('User', function () {
+  it('should generate a salt and set a hash when password is set', function () {
     var user = new User();
     should.strictEqual(undefined, user.salt);
     should.strictEqual(undefined, user.hash);
@@ -20,17 +20,21 @@ module.exports = {
     user.password.should.equal('hello');
     user.salt.should.not.be.undefined;
     user.hash.should.not.be.undefined;
-  },
-
-  'a user should authenticate with a correct password': function () {
+  });
+  it('should authenticate with a correct password', function (done) {
     var user = new User();
     user.password = 'hello';
-    user.authenticate('hello').should.be.true;
-  },
-
-  'a user should fail authentication with an incorrect password': function () {
+    user.authenticate('hello', function (err, matched) {
+      matched.should.be.true;
+      done();
+    });
+  });
+  it('should fail authentication with an incorrect password', function (done) {
     var user = new User();
     user.password = 'correct';
-    user.authenticate('incorrect').should.be.false;
-  }
-};
+    user.authenticate('incorrect', function (err, matched) {
+      matched.should.be.false;
+      done();
+    });
+  });
+});

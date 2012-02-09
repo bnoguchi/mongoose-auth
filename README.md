@@ -14,6 +14,7 @@ mongoose-auth supports the following authorization strategies:
 - `twitter`
 - `github`
 - `instagram`
+- `google`
 
 mongoose-auth does 3 things:
 
@@ -167,9 +168,6 @@ You can also use multiple authorization strategies in the same application.
 Here is an example, using 5 authorization strategies:
 
 ```javascript
-    // A configuration file for holding all of your
-    // 3rd party OAuth credentials
-    var conf = require('./conf');
     // A configuration file for holding all of your
     // 3rd party OAuth credentials
     var conf = require('./conf');
