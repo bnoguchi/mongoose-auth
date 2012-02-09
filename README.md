@@ -493,6 +493,34 @@ mongoose.model('User', UserSchema);
 User = mongoose.model('User');
 ```
 
+## Recipe 6: Customizing logout handler
+
+This is a copy of instructions from `everyauth` and applied to `mongoose-auth`:
+
+```javascript
+// ...
+UserSchema.plugin(mongooseAuth, {
+  everymodule: {
+    everyauth: {
+      User: function () {
+        return User;
+      },
+      handleLogout: function(req, res) {
+        // Put your extra logic here
+        req.logout(); // The logout method is added for you by everyauth, too
+        // And/or put your extra logic here
+        res.writeHead(303, { 'Location': this.logoutRedirectPath() });
+        res.end();
+      }
+    }
+  }
+  // ...
+});
+// ...
+```
+
+
+
 ### License
 MIT License
 
