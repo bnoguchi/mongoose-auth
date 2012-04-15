@@ -62,7 +62,8 @@ UserSchema.plugin(mongooseAuth, {
     }
   , github: {
       everyauth: {
-          myHostname: 'http://local.host:3000'
+          scope: 'user'
+        ,  myHostname: 'http://local.host:3000'
         , appId: conf.github.appId
         , appSecret: conf.github.appSecret
         , redirectPath: '/'
