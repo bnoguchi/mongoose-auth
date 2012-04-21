@@ -12,6 +12,7 @@ var Modules = {
   , github: require('./lib/modules/github')
   , instagram: require('./lib/modules/instagram')
   , google: require('./lib/modules/google')
+  , dwolla: require('./lib/modules/dwolla')
 };
 
 // Mostly, we need this because password needs to be loaded before everything else
@@ -54,8 +55,8 @@ exports = module.exports = function plugin (schema, opts) {
       if (!everyauthConfig[k])
         everyauthConfig[k] = everyauthDefaults[k];
     }
-   
-    // Configure everyauth for this module 
+
+    // Configure everyauth for this module
     for (var k in everyauthConfig) {
       everyauth[moduleName][k]( everyauthConfig[k] );
     }
