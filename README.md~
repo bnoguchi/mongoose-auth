@@ -407,7 +407,7 @@ for a live example.
 
 ## Recipe 4: Adding more attributes to your schema
 
-This one has come up enough that it is here as a recipe, even though it is not specific to `mongoose-auth`. Suppose
+This one ha come up enough that it is here as a recipe, even though it is not specific to `mongoose-auth`. Suppose
 you want to add a special attribute such as `roles: [String]` to your UserSchema. This is something that you can do
 using just `mongoose`
 
