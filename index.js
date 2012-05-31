@@ -12,11 +12,12 @@ var Modules = {
   , github: require('./lib/modules/github')
   , instagram: require('./lib/modules/instagram')
   , google: require('./lib/modules/google')
+  , dwolla: require('./lib/modules/dwolla')
 };
 
 // Mostly, we need this because password needs to be loaded before everything else
 // so that other modules can use everyauth.password.loginKey()
-var moduleLoadOrder = ['everymodule', 'password', 'facebook', 'twitter', 'github', 'instagram', 'google'];
+var moduleLoadOrder = ['everymodule', 'password', 'facebook', 'twitter', 'github', 'instagram', 'google', 'dwolla'];
 
 /**
  * Decorates the (User) Schema with the proper attributes.
@@ -54,8 +55,8 @@ exports = module.exports = function plugin (schema, opts) {
       if (!everyauthConfig[k])
         everyauthConfig[k] = everyauthDefaults[k];
     }
-   
-    // Configure everyauth for this module 
+
+    // Configure everyauth for this module
     for (var k in everyauthConfig) {
       everyauth[moduleName][k]( everyauthConfig[k] );
     }
