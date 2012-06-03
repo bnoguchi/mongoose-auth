@@ -44,6 +44,8 @@ exports = module.exports = function plugin (schema, opts) {
     var moduleOpts = opts[moduleName];
     if (moduleOpts === true) {
       moduleOpts = {};
+    } else if (moduleOpts === false){
+      return;
     }
 
     var everyauthConfig = moduleOpts.everyauth || {};
