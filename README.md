@@ -15,6 +15,7 @@ mongoose-auth supports the following authorization strategies:
 - `github`
 - `instagram`
 - `google`
+- `tumblr`
 
 mongoose-auth does 3 things:
 
