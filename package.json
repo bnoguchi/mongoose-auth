@@ -15,7 +15,7 @@
   "dependencies": {
     "bcrypt": ">=0.5.0",
     "mongoose": ">=2.4.8",
-    "everyauth": "git://github.com/sdb/everyauth.git",
+    "everyauth": "git://github.com/sdb/everyauth.git#tumblr",
     "mongoose-types": ">=1.0.3"
   },
   "devDependencies": {
