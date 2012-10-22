@@ -85,6 +85,14 @@ UserSchema.plugin(mongooseAuth, {
         , scope: 'https://www.google.com/m8/feeds'
       }
     }
+  , tumblr: {
+      everyauth: {
+          myHostname: 'http://local.host:3000'
+        , consumerKey: conf.tumblr.consumerKey
+        , consumerSecret: conf.tumblr.consumerSecret
+        , redirectPath: '/'
+      }
+    }
 });
 // Adds login: String
 

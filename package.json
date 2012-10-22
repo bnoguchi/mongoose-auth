@@ -15,11 +15,11 @@
   "dependencies": {
     "bcrypt": ">=0.5.0",
     "mongoose": ">=2.4.8",
-    "everyauth": ">=0.2.28",
+    "everyauth": "git://github.com/sdb/everyauth.git#tumblr",
     "mongoose-types": ">=1.0.3"
   },
   "devDependencies": {
-    "express": ">=2.3.2",
+    "express": ">=2.3.2 < 3.0",
     "jade": ">=0.12.1",
     "mocha": ">=0.10.1",
     "should": ">=0.5.1"

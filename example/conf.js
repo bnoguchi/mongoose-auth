@@ -23,4 +23,8 @@ module.exports = {
         clientId: '224794776836-cp3a2v0elt955h9uqhgmskplhg85ljjm.apps.googleusercontent.com'
       , clientSecret: 'rxGFo1mBG_H3DX2ifDFawiMZ'
     }
+  , tumblr: {
+        consumerKey: ''
+      , consumerSecret: ''
+    }
 };
