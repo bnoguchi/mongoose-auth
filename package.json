@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "bcrypt": ">=0.5.0",
-    "mongoose": ">=2.4.8",
-    "everyauth": ">=0.2.28",
+    "mongoose": "2.*",
+    "everyauth": "https://github.com/arunoda/everyauth/archive/master.tar.gz",
     "mongoose-types": ">=1.0.3"
   },
   "devDependencies": {
