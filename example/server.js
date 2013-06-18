@@ -14,7 +14,7 @@ var mongoose = require('mongoose')
 var UserSchema = new Schema({})
   , User;
 
-var mongooseAuth = require('../index');
+var mongooseAuth = require('../index');  // change to 'mongoose-auth' to use npm module in your code.
 
 UserSchema.plugin(mongooseAuth, {
     everymodule: {
