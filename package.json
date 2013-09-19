@@ -15,8 +15,8 @@
   "dependencies": {
     "bcrypt": ">=0.5.0",
     "mongoose": ">=2.4.8",
-    "everyauth": ">=0.2.28",
-    "mongoose-types": ">=1.0.3"
+    "mongoose-types": ">=1.0.3",
+    "everyauth": "~0.4.5"
   },
   "devDependencies": {
     "express": ">=2.3.2",
