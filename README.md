@@ -1,7 +1,7 @@
 mongoose-auth
 =============
 
-User authentication plugin for mongoose node.js orm.
+User authentication plugin for mongoose node.js ODM.
 
 mongoose-auth enables you to support authorization in any number of ways
 via authorization strategies.
