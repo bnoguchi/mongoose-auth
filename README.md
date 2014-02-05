@@ -224,6 +224,15 @@ Here is an example, using 5 authorization strategies:
             , redirectPath: '/'
           }
         }
+      , vkontakte: {
+          everyauth: {
+              myHostname: 'http://localhost:3000'
+            , appId: conf.vk.appId
+            , appSecret: conf.vk.appSecret
+            , fields: conf.vk.fields // @see http://vk.com/developers.php?oid=-1&p=users.get for a list
+            , redirectPath: '/'
+          }
+        }
     });
 ```
 
